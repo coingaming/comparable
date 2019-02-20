@@ -12,53 +12,104 @@ defprotocol Comparable do
   ## Examples
 
   ```
+  iex> 2 > 1
+  true
   iex> Comparable.compare(2, 1)
   :gt
+  iex> 1 < 2
+  true
   iex> Comparable.compare(1, 2)
   :lt
+  iex> 1 == 1
+  true
   iex> Comparable.compare(1, 1)
   :eq
+
+  iex> {1, 2, 3} > {1, 2}
+  true
+  iex> Comparable.compare({1, 2, 3}, {1, 2})
+  :gt
+  iex> {1, 2} < {1, 2, 3}
+  true
+  iex> Comparable.compare({1, 2}, {1, 2, 3})
+  :lt
+  iex> {1, 2} == {1, 2}
+  true
+  iex> Comparable.compare({1, 2}, {1, 2})
+  :eq
+
+  iex> {1, 2, 3} > {1, 1000}
+  true
+  iex> Comparable.compare({1, 2, 3}, {1, 1000})
+  :gt
+  iex> {1, 1000} < {1, 2, 3}
+  true
+  iex> Comparable.compare({1, 1000}, {1, 2, 3})
+  :lt
+  iex> {1, 2} < {1, 1000}
+  true
+  iex> Comparable.compare({1, 2}, {1, 1000})
+  :lt
+
+  iex> [1, 2, 3] > [1, 2]
+  true
+  iex> Comparable.compare([1, 2, 3], [1, 2])
+  :gt
+  iex> [1, 2] < [1, 2, 3]
+  true
+  iex> Comparable.compare([1, 2], [1, 2, 3])
+  :lt
+  iex> [1, 2] == [1, 2]
+  true
+  iex> Comparable.compare([1, 2], [1, 2])
+  :eq
+
+  iex> [1, 2, 3] < [1, 1000]
+  true
+  iex> Comparable.compare([1, 2, 3], [1, 1000])
+  :lt
+  iex> [1, 1000] > [1, 2, 3]
+  true
+  iex> Comparable.compare([1, 1000], [1, 2, 3])
+  :gt
+  iex> [1, 2] < [1, 1000]
+  true
+  iex> Comparable.compare([1, 2], [1, 1000])
+  :lt
+
+  iex> %{z: 1000} < %{a: 1, b: 1}
+  true
+  iex> Comparable.compare(%{z: 1000}, %{a: 1, b: 1})
+  :lt
+  iex> %{a: 1, z: 1} > %{a: 1000, b: 1000}
+  true
+  iex> Comparable.compare(%{a: 1, z: 1}, %{a: 1000, b: 1000})
+  :gt
+  iex> %{a: 1, b: 1} == %{a: 1, b: 1}
+  true
+  iex> Comparable.compare(%{a: 1, b: 1}, %{a: 1, b: 1})
+  :eq
+
+  iex> %{a: 1, b: 1, c: 1000} < %{a: 1, b: 1000, c: 1}
+  true
+  iex> Comparable.compare(%{a: 1, b: 1, c: 1000}, %{a: 1, b: 1000, c: 1})
+  :lt
+
+  iex> {:ok, dt} = NaiveDateTime.new(2000, 1, 1, 0, 0, 0)
+  {:ok, ~N[2000-01-01 00:00:00]}
+  iex> NaiveDateTime.compare(NaiveDateTime.add(dt, 1, :microsecond), NaiveDateTime.add(dt, 1, :second))
+  :lt
+  iex> Comparable.compare(NaiveDateTime.add(dt, 1, :microsecond), NaiveDateTime.add(dt, 1, :second))
+  :lt
+
+  iex> Comparable.compare(%URI{host: "1"}, %URI{host: "2"})
+  :lt
+  iex> Comparable.compare(%URI{host: "1"}, self())
+  :gt
+  iex> Comparable.compare(1, self())
+  :lt
   ```
   """
   @spec compare(t, term) :: :gt | :lt | :eq
   def compare(t, term)
-end
-
-defmodule Comp do
-  @moduledoc """
-  Provides utilities to work with `Comparable` types
-  """
-
-  defmacro gt, do: :gt
-  defmacro lt, do: :lt
-  defmacro eq, do: :eq
-
-  @doc """
-  Is left term equal to right term?
-
-  ## Examples
-
-  ```
-  iex> Comp.equal?(1, 1)
-  true
-  iex> Comp.equal?(1, :hello)
-  false
-  ```
-  """
-  @spec equal?(Comparable.t(), term) :: boolean
-  def equal?(left, right) do
-    Comparable.compare(left, right) == :eq
-  end
-end
-
-defimpl Comparable, for: Any do
-  require Comp
-
-  def compare(left, right) do
-    cond do
-      left > right -> Comp.gt()
-      left < right -> Comp.lt()
-      true -> Comp.eq()
-    end
-  end
 end
