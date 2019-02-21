@@ -105,9 +105,13 @@ defprotocol Comparable do
 
   iex> Comparable.compare(%URI{host: "1"}, %URI{host: "2"})
   :lt
+  iex> {:ok, dt} = NaiveDateTime.new(2000, 1, 1, 0, 0, 0)
+  {:ok, ~N[2000-01-01 00:00:00]}
+  iex> Comparable.compare(%URI{host: "1"}, dt)
+  :lt
   iex> Comparable.compare(%URI{host: "1"}, self())
   :gt
-  iex> Comparable.compare(1, self())
+  iex> Comparable.compare(self(), %URI{host: "1"})
   :lt
   ```
   """
