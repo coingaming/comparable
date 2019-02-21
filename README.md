@@ -107,10 +107,10 @@ true
 |-------------|-----------|---------------------|
 | x == y | Comp.equal?(x, y) | x <~> y |
 | x != y | Comp.not_equal?(x, y) | x <&#124;> y |
-| x > y | Comp.greater_than(x, y) | x >>> y |
-| x < y | Comp.less_than(x, y) | x <<< y |
-| x >= y | Comp.greater_or_equal(x, y) | x ~>> y |
-| x <= y | Comp.less_or_equal(x, y) | x <<~ y |
+| x > y | Comp.greater_than?(x, y) | x >>> y |
+| x < y | Comp.less_than?(x, y) | x <<< y |
+| x >= y | Comp.greater_or_equal?(x, y) | x ~>> y |
+| x <= y | Comp.less_or_equal?(x, y) | x <<~ y |
 
 Example of infix shortcuts usage:
 
@@ -129,4 +129,15 @@ iex> Decimal.new("1") ~>> Decimal.new("1.0")
 true
 iex> Decimal.new("1") <<~ Decimal.new("1.0")
 true
+```
+
+Also there is simple `Comp.compare/2` function if you want to work directly with `Ord` enum values:
+
+```elixir
+iex> Comp.compare(1, 1)
+:eq
+iex> Comp.compare(1, 2)
+:lt
+iex> Comp.compare(2, 1)
+:gt
 ```
