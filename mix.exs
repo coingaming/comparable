@@ -57,11 +57,11 @@ defmodule Comparable.MixProject do
   defp deps do
     [
       # development tools
-      {:excoveralls, "~> 0.8", runtime: false},
-      {:dialyxir, "~> 0.5", runtime: false},
-      {:ex_doc, "~> 0.19", runtime: false},
-      {:credo, "~> 0.9", runtime: false},
-      {:boilex, "~> 0.2", runtime: false}
+      {:excoveralls, "~> 0.8", runtime: false, only: [:dev, :test]},
+      {:dialyxir, "~> 0.5", runtime: false, only: [:dev, :test]},
+      {:ex_doc, "~> 0.19", runtime: false, only: [:dev, :test]},
+      {:credo, "~> 0.9", runtime: false, only: [:dev, :test]},
+      {:boilex, "~> 0.2", runtime: false, only: [:dev, :test]}
     ]
   end
 end
