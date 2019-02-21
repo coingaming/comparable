@@ -5,6 +5,7 @@ defprotocol Comparable do
 
   @fallback_to_any true
   @type t :: Comparable.t()
+  @type ord :: :gt | :lt | :eq
 
   @doc """
   Function to compare term or given type with any other term
@@ -110,6 +111,6 @@ defprotocol Comparable do
   :lt
   ```
   """
-  @spec compare(t, term) :: :gt | :lt | :eq
+  @spec compare(t, term) :: ord
   def compare(t, term)
 end
