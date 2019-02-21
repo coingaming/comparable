@@ -8,6 +8,7 @@ defmodule Comparable.MixProject do
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       # excoveralls
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
@@ -62,6 +63,12 @@ defmodule Comparable.MixProject do
       {:ex_doc, "~> 0.19", runtime: false, only: [:dev, :test]},
       {:credo, "~> 0.9", runtime: false, only: [:dev, :test]},
       {:boilex, "~> 0.2", runtime: false, only: [:dev, :test]}
+    ]
+  end
+
+  defp aliases do
+    [
+      docs: ["docs", "cmd mkdir -p doc/priv/img/", "cmd cp -R priv/img/ doc/priv/img/", "docs"]
     ]
   end
 end
