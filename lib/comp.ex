@@ -18,13 +18,13 @@ defmodule Comp do
   end
 
   @doc """
-  Enables <~>, <|>, <<<, >>>, <<~, ~>> infix shortcuts and
+  Enables <~>, <|>, >>>, <<<, ~>>, <<~ infix shortcuts and
   Comp.gt, Comp.lt, Comp.eq macro
   """
   defmacro __using__(_) do
     quote do
       require Comp
-      import Comp, only: [<~>: 2, <|>: 2]
+      import Comp, only: [<~>: 2, <|>: 2, >>>: 2, <<<: 2, ~>>: 2, <<~: 2]
     end
   end
 
@@ -71,6 +71,98 @@ defmodule Comp do
   end
 
   @doc """
+  Infix shortcut for `Comp.greater_than?/2`
+
+  ## Examples
+
+  ```
+  iex> use Comp
+  Comp
+  iex> 1 >>> 1
+  false
+  iex> 1 >>> 2
+  false
+  iex> 2 >>> 1
+  true
+  ```
+  """
+  defmacro left >>> right do
+    quote do
+      unquote(left)
+      |> Comp.greater_than?(unquote(right))
+    end
+  end
+
+  @doc """
+  Infix shortcut for `Comp.less_than?/2`
+
+  ## Examples
+
+  ```
+  iex> use Comp
+  Comp
+  iex> 1 <<< 1
+  false
+  iex> 1 <<< 2
+  true
+  iex> 2 <<< 1
+  false
+  ```
+  """
+  defmacro left <<< right do
+    quote do
+      unquote(left)
+      |> Comp.less_than?(unquote(right))
+    end
+  end
+
+  @doc """
+  Infix shortcut for `Comp.greater_or_equal?/2`
+
+  ## Examples
+
+  ```
+  iex> use Comp
+  Comp
+  iex> 1 ~>> 1
+  true
+  iex> 1 ~>> 2
+  false
+  iex> 2 ~>> 1
+  true
+  ```
+  """
+  defmacro left ~>> right do
+    quote do
+      unquote(left)
+      |> Comp.greater_or_equal?(unquote(right))
+    end
+  end
+
+  @doc """
+  Infix shortcut for `Comp.less_or_equal?/2`
+
+  ## Examples
+
+  ```
+  iex> use Comp
+  Comp
+  iex> 1 <<~ 1
+  true
+  iex> 1 <<~ 2
+  true
+  iex> 2 <<~ 1
+  false
+  ```
+  """
+  defmacro left <<~ right do
+    quote do
+      unquote(left)
+      |> Comp.less_or_equal?(unquote(right))
+    end
+  end
+
+  @doc """
   Is left term equal to right term?
 
   ## Examples
@@ -102,6 +194,78 @@ defmodule Comp do
   @spec not_equal?(left, right) :: boolean
   def not_equal?(left, right) do
     Comparable.compare(left, right) != eq()
+  end
+
+  @doc """
+  Is left term greater than right term?
+
+  ## Examples
+
+  ```
+  iex> Comp.greater_than?(1, 1)
+  false
+  iex> Comp.greater_than?(1, 2)
+  false
+  iex> Comp.greater_than?(2, 1)
+  true
+  """
+  @spec greater_than?(left, right) :: boolean
+  def greater_than?(left, right) do
+    Comparable.compare(left, right) == gt()
+  end
+
+  @doc """
+  Is left term less than right term?
+
+  ## Examples
+
+  ```
+  iex> Comp.less_than?(1, 1)
+  false
+  iex> Comp.less_than?(1, 2)
+  true
+  iex> Comp.less_than?(2, 1)
+  false
+  """
+  @spec less_than?(left, right) :: boolean
+  def less_than?(left, right) do
+    Comparable.compare(left, right) == lt()
+  end
+
+  @doc """
+  Is left term greater or equal to right term?
+
+  ## Examples
+
+  ```
+  iex> Comp.greater_or_equal?(1, 1)
+  true
+  iex> Comp.greater_or_equal?(1, 2)
+  false
+  iex> Comp.greater_or_equal?(2, 1)
+  true
+  """
+  @spec greater_or_equal?(left, right) :: boolean
+  def greater_or_equal?(left, right) do
+    Comparable.compare(left, right) != lt()
+  end
+
+  @doc """
+  Is left term less or equal to right term?
+
+  ## Examples
+
+  ```
+  iex> Comp.less_or_equal?(1, 1)
+  true
+  iex> Comp.less_or_equal?(1, 2)
+  true
+  iex> Comp.less_or_equal?(2, 1)
+  false
+  """
+  @spec less_or_equal?(left, right) :: boolean
+  def less_or_equal?(left, right) do
+    Comparable.compare(left, right) != gt()
   end
 
   @doc """
