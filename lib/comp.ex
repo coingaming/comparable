@@ -12,12 +12,8 @@ defmodule Comp do
 
   defmacro deffallback do
     quote do
-      def compare(left, right) do
-        cond do
-          left > right -> unquote(__MODULE__).gt()
-          left < right -> unquote(__MODULE__).lt()
-        end
-      end
+      def compare(left, right) when left > right, do: unquote(__MODULE__).gt()
+      def compare(left, right) when left < right, do: unquote(__MODULE__).lt()
     end
   end
 
@@ -103,6 +99,7 @@ defmodule Comp do
   true
   ```
   """
+  @spec not_equal?(left, right) :: boolean
   def not_equal?(left, right) do
     Comparable.compare(left, right) != eq()
   end
