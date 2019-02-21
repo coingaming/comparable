@@ -36,6 +36,7 @@ defmodule Comparable.MixProject do
       # hex.pm stuff
       description: "Comparable (aka Orderable) Elixir protocol",
       package: [
+        organization: "coingaming",
         licenses: ["Apache 2.0"],
         files: ["lib", "priv", "mix.exs", "README*", "VERSION*"],
         maintainers: ["ILJA TKACHUK"],
