@@ -10,6 +10,9 @@ defmodule Comp do
   defmacro lt, do: :lt
   defmacro eq, do: :eq
 
+  @doc """
+  Helper to auto-generate clauses where right term may have a type other than left term
+  """
   defmacro deffallback do
     quote do
       def compare(left, right) when left > right, do: unquote(__MODULE__).gt()
