@@ -111,6 +111,8 @@ true
 | x < y | Comp.less_than?(x, y) | x <<< y |
 | x >= y | Comp.greater_or_equal?(x, y) | x ~>> y |
 | x <= y | Comp.less_or_equal?(x, y) | x <<~ y |
+| max(x, y) | Comp.max(x, y) |
+| min(x, y) | Comp.min(x, y) |
 
 Example of infix shortcuts usage:
 

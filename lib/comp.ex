@@ -269,6 +269,56 @@ defmodule Comp do
   end
 
   @doc """
+  Returns the biggest of the two given terms, if terms are equal - then the first one is returned
+
+  ## Examples
+
+  ```
+  iex> Comp.max(1, 1)
+  1
+  iex> Comp.max(1, 2)
+  2
+  iex> Comp.max(2, 1)
+  2
+  ```
+  """
+  @spec max(left, right) :: left | right
+  def max(left, right) do
+    left
+    |> Comparable.compare(right)
+    |> case do
+      gt() -> left
+      lt() -> right
+      eq() -> left
+    end
+  end
+
+  @doc """
+  Returns the smallest of the two given terms, if terms are equal - then the first one is returned
+
+  ## Examples
+
+  ```
+  iex> Comp.min(1, 1)
+  1
+  iex> Comp.min(1, 2)
+  1
+  iex> Comp.min(2, 1)
+  1
+  ```
+  """
+  @spec min(left, right) :: left | right
+  def min(left, right) do
+    left
+    |> Comparable.compare(right)
+    |> case do
+      gt() -> right
+      lt() -> left
+      eq() -> left
+    end
+  end
+
+  @doc """
   Compare left and right term
 
   ## Examples
