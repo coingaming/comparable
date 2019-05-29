@@ -95,7 +95,8 @@ true
 
 ## Utilities
 
-`Comp` module provides utilities not only for equality, but for other comparison operations as well. Also it provides infix shortcuts for these utilities:
+`use Comp` expression provides utilities not only for equality, but for other comparison operations as well.
+Also it provides infix shortcuts for these utilities:
 
 | Kernel.fn/2 | Comp.fn/2 | Comp infix shortcut |
 |-------------|-----------|---------------------|
@@ -136,4 +137,15 @@ iex> Comp.compare(1, 2)
 :lt
 iex> Comp.compare(2, 1)
 :gt
+```
+
+## Testing
+
+`use Comp` expression also provides 2 utilities which can auto-generate tests for implementation of `Comparable` protocol for your types:
+
+```elixir
+use Comp
+
+gen_ne_test("not equal test", Decimal.new("1"), Decimal.new("2"))
+gen_eq_test("equal test", Decimal.new("1"), Decimal.new("1.0"))
 ```

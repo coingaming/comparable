@@ -12,7 +12,7 @@ defmodule Comp do
 
   @doc """
   Enables `<~>`, `<|>`, `>>>`, `<<<`, `~>>`, `<<~` infix shortcuts and
-  `Comp.gt`, `Comp.lt`, `Comp.eq` macro
+  `Comp.gt`, `Comp.lt`, `Comp.eq`, `defcomparable`, `gen_ne_test`, `gen_eq_test` macro
   """
   defmacro __using__(_) do
     quote do
