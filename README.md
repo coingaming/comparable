@@ -1,6 +1,6 @@
 # Comparable
 
-Elixir protocol which describes how two Elixir terms can be compared. There are cases when we want to compare two terms of some data type not just by term value according standard Erlang/Elixir [ordering rules](https://hexdocs.pm/elixir/operators.html#term-ordering) but to use some meaningful business logic to do comparison. Main purpose of this package is to provide extended versions of standard kernel functions like `==/2`, `!=/2`, `>/2`, `</2`, `>=/2`, `<=/2` which will rely on Comparable protocol implementation for given type. Protocol itself is very similar to [Ord](http://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Ord.html) type class in Haskell.
+Elixir protocol which describes how two Elixir terms can be compared. There are cases when we want to compare two terms of some data type not just by term value according standard Erlang/Elixir [ordering rules](https://hexdocs.pm/elixir/operators.html#term-ordering) but to use some meaningful business logic to do comparison. Main purpose of this package is to provide extended versions of standard kernel functions like `==/2`, `!=/2`, `>/2`, `</2`, `>=/2`, `<=/2` which will rely on Comparable protocol implementation for given pair of types. Protocol itself is very similar to [Ord](http://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Ord.html) type class in Haskell.
 
 [![Hex](https://raw.githubusercontent.com/tim2CF/static-asserts/master/build-passing.svg?sanitize=true)](https://hex.pm/packages/coingaming/comparable/)
 [![Documentation](https://raw.githubusercontent.com/tim2CF/static-asserts/master/documentation-passing.svg?sanitize=true)](https://coingaming.hexdocs.pm/comparable/)
@@ -15,7 +15,7 @@ by adding `comparable` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:comparable, "~> 0.1.0", organization: "coingaming"}
+    {:comparable, "~> 1.0.0", organization: "coingaming"}
   ]
 end
 ```
@@ -48,36 +48,30 @@ iex> Decimal.new("1.0") |> Map.from_struct
 And here `Comparable` protocol can help us, let's implement it for `Decimal` type using existing `Decimal.compare/2` helper:
 
 ```elixir
-defimpl Comparable, for: Decimal do
-  require Comp
+use Comp
 
-  def compare(left, %Decimal{} = right) do
-    left
-    |> Decimal.compare(right)
-    |> case do
-      %Decimal{coef: 1, sign: 1} ->
-        Comp.gt()
+defcomparable left :: Decimal, right :: Decimal do
+  left
+  |> Decimal.compare(right)
+  |> case do
+    %Decimal{coef: 1, sign: 1} ->
+      Comp.gt()
 
-      %Decimal{coef: 1, sign: -1} ->
-        Comp.lt()
+    %Decimal{coef: 1, sign: -1} ->
+      Comp.lt()
 
-      %Decimal{coef: 0} ->
-        Comp.eq()
+    %Decimal{coef: 0} ->
+      Comp.eq()
 
-      %Decimal{coef: :qNaN} ->
-        raise(
-          "can't apply Comparable protocol to left = #{inspect(left)} and right = #{
-            inspect(right)
-          }"
-        )
-    end
+    %Decimal{coef: :qNaN} ->
+      raise(
+        "can't apply Comparable protocol to left = #{inspect(left)} and right = #{
+          inspect(right)
+        }"
+      )
   end
-
-  Comp.deffallback()
 end
 ```
-
-where `Comp.deffallback/0` is simple helper to auto-generate clauses where **right** term is not a `Decimal` (it's just fallback to standard Kernel implementation).
 
 And when protocol for `Decimal` type is implemented, we can use `Comp.equal?/2` utility function instead of Kernel `==/2`:
 
@@ -133,7 +127,7 @@ iex> Decimal.new("1") <<~ Decimal.new("1.0")
 true
 ```
 
-Also there is simple `Comp.compare/2` function if you want to work directly with `Ord` enum values:
+Also there is additional `Comp.compare/2` function if you want to work directly with `Ord` enum values:
 
 ```elixir
 iex> Comp.compare(1, 1)

@@ -7,6 +7,7 @@ defmodule Comparable.MixProject do
       version: "VERSION" |> File.read!() |> String.trim(),
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
+      consolidate_protocols: Mix.env() != :test,
       deps: deps(),
       aliases: aliases(),
       # excoveralls
@@ -58,8 +59,9 @@ defmodule Comparable.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:typable, "~> 0.1"},
       # development tools
-      {:excoveralls, "~> 0.8", runtime: false, only: [:dev, :test]},
+      {:excoveralls, "~> 0.11", runtime: false, only: [:dev, :test]},
       {:dialyxir, "~> 0.5", runtime: false, only: [:dev, :test]},
       {:ex_doc, "~> 0.19", runtime: false, only: [:dev, :test]},
       {:credo, "~> 0.9", runtime: false, only: [:dev, :test]},

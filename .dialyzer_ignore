@@ -1,3 +1,11 @@
-Any dialyzer's error output lines putted to this text file will be completely ignored by dialyzer's type checks.
-Please not abuse this file, type checks are VERY important.
-Use this file just in case of bad 3rd party auto-generated code.
+:0: Unknown function 'Elixir.Comparable.Atom':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.BitString':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Float':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Function':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Integer':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.List':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Map':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.PID':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Port':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Reference':'__impl__'/1
+:0: Unknown function 'Elixir.Comparable.Tuple':'__impl__'/1
