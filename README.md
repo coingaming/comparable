@@ -15,7 +15,7 @@ by adding `comparable` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:comparable, "~> 1.0.0", organization: "coingaming"}
+    {:comparable, "~> 1.0.0"}
   ]
 end
 ```
